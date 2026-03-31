@@ -47,11 +47,7 @@ public class ClimbState : PlayerBaseState
         // SET COOLDOWN TO PREVENT IMMEDIATE RE-ENTRY
         _player.SetClimbCooldown();
 
-        // APPLY JUMP FORCE
-        _player.Rigidbody.linearVelocity = new Vector2(_player.Rigidbody.linearVelocityX, _player.JumpForce);
-        _player.UseJump();
-
-        // SWITCH TO JUMP STATE
+        // SWITCH TO JUMP STATE (JumpState handles UseJump and applying force)
         EnterJumpState(); return;
       }
 
