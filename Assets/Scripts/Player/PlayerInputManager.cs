@@ -10,6 +10,7 @@ public class PlayerInputManager : MonoBehaviour
   private InputAction _climb;
   private InputAction _jump;
   private InputAction _dash;
+  private InputAction _melee;
 
   private void Awake()
   {
@@ -18,6 +19,7 @@ public class PlayerInputManager : MonoBehaviour
     _climb = _playerInputActions.Player.Climb;
     _jump = _playerInputActions.Player.Jump;
     _dash = _playerInputActions.Player.Dash;
+    _melee = _playerInputActions.Player.Melee;
   }
 
   private void OnEnable()
@@ -37,18 +39,14 @@ public class PlayerInputManager : MonoBehaviour
 
   private FrameInput GatherInput()
   {
-    // ADD DEAD ZONE FOR JOYSTICKS TO PREVENT SLOW MOVEMENT
-    // float rawMove = _move.ReadValue<float>();
-    // float processedMove = Mathf.Abs(rawMove) > 0.2f ? Mathf.Sign(rawMove) : 0f;
-
     return new FrameInput
     {
-      // Move = processedMove,
       Move = _move.ReadValue<float>(),
       Climb = _climb.ReadValue<float>(),
       Jump = _jump.WasPressedThisFrame(),
       JumpHeld = _jump.inProgress,
-      Dash = _dash.WasPressedThisFrame()
+      Dash = _dash.WasPressedThisFrame(),
+      Melee = _melee.WasPressedThisFrame()
     };
   }
 
@@ -70,4 +68,5 @@ public struct FrameInput
   public bool Jump;
   public bool JumpHeld;
   public bool Dash;
+  public bool Melee;
 }
