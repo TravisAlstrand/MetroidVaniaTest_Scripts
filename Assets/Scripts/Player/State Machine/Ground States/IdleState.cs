@@ -17,6 +17,9 @@ public class IdleState : PlayerBaseState
 
   public override void UpdateState()
   {
+    // SWITCH TO MELEE STATE
+    if (_player.FrameInput.Melee) { _stateMachine.SwitchState(_stateMachine.MeleeState); }
+
     // SWITCH TO DASH STATE
     if (_player.CanDash() && _player.FrameInput.Dash) { _stateMachine.SwitchState(_stateMachine.DashState); return; }
 

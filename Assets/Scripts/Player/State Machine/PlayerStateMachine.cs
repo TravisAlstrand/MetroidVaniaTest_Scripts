@@ -26,6 +26,7 @@ public class PlayerStateMachine : MonoBehaviour
 
   // SPECIAL STATES
   public DashState DashState { get; private set; }
+  public MeleeState MeleeState { get; private set; }
 
   private void Awake()
   {
@@ -41,6 +42,7 @@ public class PlayerStateMachine : MonoBehaviour
     WallJumpState = new WallJumpState(this, _player);
     ClimbState = new ClimbState(this, _player);
     DashState = new DashState(this, _player);
+    MeleeState = new MeleeState(this, _player);
   }
 
   private void Start()

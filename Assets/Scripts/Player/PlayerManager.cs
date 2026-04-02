@@ -66,6 +66,14 @@ public class PlayerManager : MonoBehaviour
   [SerializeField] private float _dashCooldownTime = 0.5f;
   private float _dashCooldownTimer;
 
+  [Header("Melee")]
+  [SerializeField] private GameObject _topMeleeHitBox;
+  [SerializeField] private GameObject _sideMeleeHitBox;
+  [SerializeField] private GameObject _bottomMeleeHitBox;
+  [SerializeField] private float _comboWindowTime = 0.6f;
+  private int _currentAttackCombo = 0;
+  private float _comboWindowTimer;
+
   [Header("Abilities")]
   [SerializeField] private bool _doubleJumpUnlocked = true;
   [SerializeField] private bool _wallJumpUnlocked = true;
@@ -226,6 +234,58 @@ public class PlayerManager : MonoBehaviour
   }
   #endregion
 
+  #region Melee
+  public MeleeDirection GetMeleeDirection()
+  {
+    // PRIORITIZE VERTICAL INPUT
+    if (FrameInput.Climb > 0.5f) return MeleeDirection.Top;
+    if (!IsOnGround && FrameInput.Climb < 0.5f) return MeleeDirection.Bottom;
+    return MeleeDirection.Side;
+  }
+
+  public void ActivateMeleeHitBox(MeleeDirection direction)
+  {
+    switch (direction)
+    {
+      // TOP HIT BOX
+      case MeleeDirection.Top:
+        _topMeleeHitBox.SetActive(true);
+        break;
+      // BOTTOM HIT BOX
+      case MeleeDirection.Bottom:
+        _bottomMeleeHitBox.SetActive(true);
+        break;
+      // SIDE HIT BOX
+      case MeleeDirection.Side:
+        _sideMeleeHitBox.SetActive(true);
+        break;
+    }
+  }
+
+  public void DeactivateMeleeHitBoxes()
+  {
+    _topMeleeHitBox.SetActive(false);
+    _bottomMeleeHitBox.SetActive(false);
+    _sideMeleeHitBox.SetActive(false);
+  }
+
+  private void ResetComboWindowTime()
+  {
+    _comboWindowTimer = _comboWindowTime;
+  }
+
+  private void IncrementAttackCombo()
+  {
+    if (_currentAttackCombo < 3) { _currentAttackCombo++; }
+    else return;
+  }
+
+  private void ResetAttackCombo()
+  {
+    _currentAttackCombo = 0;
+  }
+  #endregion
+
   #region Manipulation
   private void FlipSprite()
   {
@@ -359,4 +419,11 @@ public class PlayerManager : MonoBehaviour
     }
   }
   #endregion
+}
+
+public enum MeleeDirection
+{
+  Side,
+  Top,
+  Bottom
 }
