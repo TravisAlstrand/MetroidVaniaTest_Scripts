@@ -70,6 +70,9 @@ public class PlayerManager : MonoBehaviour
   [SerializeField] private GameObject _topMeleeHitBox;
   [SerializeField] private GameObject _sideMeleeHitBox;
   [SerializeField] private GameObject _bottomMeleeHitBox;
+  [SerializeField] private GameObject _rightSlashParticle;
+  [SerializeField] private GameObject _leftSlashParticle;
+  [SerializeField] private GameObject _topSlashParticle;
   [SerializeField] private float _comboWindowTime = 0.6f;
   private int _currentAttackCombo = 0;
   private float _comboWindowTimer;
@@ -250,6 +253,7 @@ public class PlayerManager : MonoBehaviour
       // TOP HIT BOX
       case MeleeDirection.Top:
         _topMeleeHitBox.SetActive(true);
+        _topSlashParticle.SetActive(true);
         break;
       // BOTTOM HIT BOX
       case MeleeDirection.Bottom:
@@ -258,6 +262,8 @@ public class PlayerManager : MonoBehaviour
       // SIDE HIT BOX
       case MeleeDirection.Side:
         _sideMeleeHitBox.SetActive(true);
+        if (_isFacingRight) _rightSlashParticle.SetActive(true);
+        else _leftSlashParticle.SetActive(true);
         break;
     }
   }
